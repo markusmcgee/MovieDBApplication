@@ -27,8 +27,9 @@ public class MainActivity extends BaseActivity implements Presenter<MoviePresent
 
     @Override
     protected void onResume() {
+        int movieId = 550;
         super.onResume();
-        moviePresenter = new MoviePresenter();
+        moviePresenter = new MoviePresenter(movieId);
         moviePresenter.setViewModel(this);
         moviePresenter.start();
     }

@@ -4,27 +4,25 @@ import android.util.Log;
 
 import com.pnpc.mdba.app.BuildConfig;
 import com.pnpc.mdba.app.MovieDBApplication;
+import com.pnpc.mdba.app.model.Genre;
 import com.pnpc.mdba.app.model.Movie;
 import com.pnpc.mdba.app.service.MovieDBClient;
 import com.pnpc.mdba.app.service.MovieDBScheduler;
 
-import io.reactivex.observers.DisposableObserver;
-
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * Created by markusmcgee on 5/19/17.
  */
 
-public class MoviePresenter implements Presenter<MoviePresenter.ViewModel> {
+public class GenrePresenter implements Presenter<GenrePresenter.ViewModel> {
 
     private static final String TAG = "MoviePresenter";
     private final CompositeDisposable disposable;
-    private int movieId = 550;
     private ViewModel viewModel;
-
 
     public interface ViewModel extends BaseViewModel {
         //Todo: Add additional help to interface
@@ -32,8 +30,8 @@ public class MoviePresenter implements Presenter<MoviePresenter.ViewModel> {
 
     @Inject
     MovieDBClient movieDBClient;
-
-    public MoviePresenter(int movieId) {
+    
+    public GenrePresenter() {
         ((MovieDBApplication) MovieDBApplication.getAppContext()).getApplicationComponent().inject(this);
         disposable = new CompositeDisposable();
     }
@@ -47,14 +45,14 @@ public class MoviePresenter implements Presenter<MoviePresenter.ViewModel> {
     public void start() {
         disposable.clear();
         disposable.add(movieDBClient
-                .getMovie(movieId, BuildConfig.MOVIE_DB_API_KEY)
+                .getMovieGenres(BuildConfig.MOVIE_DB_API_KEY)
                 .subscribeOn(MovieDBScheduler.background())
                 .unsubscribeOn(MovieDBScheduler.background())
                 .observeOn(MovieDBScheduler.main())
-                .subscribeWith(new DisposableObserver<Movie>() {
+                .subscribeWith(new DisposableObserver<Genre>() {
 
                     @Override
-                    public void onNext(Movie value) {
+                    public void onNext(Genre value) {
                         Log.d(TAG, "debug");
                     }
 
