@@ -22,7 +22,7 @@ public interface MovieDBClient {
     Observable<Genre> getMovieGenres(@Query("api_key") String apiKey);
 
     @GET("/discover/movie")
-    Observable<Genre> movieDiscoverSearch(@Query("api_key") String apiKey, @Query("language") String language, @Query("with_genres") int genre, @Query("include_adult") boolean includeAdult, @Query("include_video") boolean includeVideo);
+    Observable<Genre> searchMovieDiscover(@Query("api_key") String apiKey, @Query("language") String language, @Query("with_genres") int genre, @Query("include_adult") boolean includeAdult, @Query("include_video") boolean includeVideo);
 
     @GET()
     Observable<SearchResult> searchMovies(@Query("api_key") String apiKey, @Query("language") String language, @Query("include_adult") boolean includeAdult, @Query("query") String search_query);

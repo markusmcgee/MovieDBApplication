@@ -18,11 +18,14 @@ import io.reactivex.observers.DisposableObserver;
  * Created by markusmcgee on 5/19/17.
  */
 
-public class GenrePresenter implements Presenter<GenrePresenter.ViewModel> {
+public class MovieDiscoverSearchPresenter implements Presenter<MovieDiscoverSearchPresenter.ViewModel> {
 
     private static final String TAG = "MoviePresenter";
     private final CompositeDisposable disposable;
+    private String languageLocale;
+    private int genre;
     private ViewModel viewModel;
+
 
     public interface ViewModel extends BaseViewModel {
         //Todo: Add additional help to interface
@@ -31,9 +34,19 @@ public class GenrePresenter implements Presenter<GenrePresenter.ViewModel> {
     @Inject
     MovieDBClient movieDBClient;
 
-    public GenrePresenter() {
+    public MovieDiscoverSearchPresenter(String languageLocale, int genre) {
         ((MovieDBApplication) MovieDBApplication.getAppContext()).getApplicationComponent().inject(this);
         disposable = new CompositeDisposable();
+        this.languageLocale = languageLocale;
+        this.genre = genre;
+    }
+
+    public void setGenre(int genre) {
+        this.genre = genre;
+    }
+
+    public void setLanguageLocale(String languageLocale) {
+        this.languageLocale = languageLocale;
     }
 
     @Override
@@ -45,7 +58,7 @@ public class GenrePresenter implements Presenter<GenrePresenter.ViewModel> {
     public void start() {
         disposable.clear();
         disposable.add(movieDBClient
-                .getMovieGenres(BuildConfig.MOVIE_DB_API_KEY)
+                .searchMovieDiscover(BuildConfig.MOVIE_DB_API_KEY, languageLocale, genre, false, true)
                 .subscribeOn(MovieDBScheduler.background())
                 .unsubscribeOn(MovieDBScheduler.background())
                 .observeOn(MovieDBScheduler.main())

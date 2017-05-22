@@ -2,7 +2,9 @@ package com.pnpc.mdba.app.di;
 
 import com.pnpc.mdba.app.MainActivity;
 import com.pnpc.mdba.app.presenter.GenrePresenter;
+import com.pnpc.mdba.app.presenter.MovieDiscoverSearchPresenter;
 import com.pnpc.mdba.app.presenter.MoviePresenter;
+import com.pnpc.mdba.app.presenter.SearchMoviePresenter;
 
 import javax.inject.Singleton;
 
@@ -15,8 +17,15 @@ import dagger.Component;
 @Singleton
 @Component(modules = {ApplicationModule.class})
 public interface ApplicationComponent {
-    void inject(GenrePresenter genrePresenter);
-    void inject(MoviePresenter moviePresenter);
+
     void inject(MainActivity mainActivity);
+
+    void inject(GenrePresenter genrePresenter);
+
+    void inject(MoviePresenter moviePresenter);
+
+    void inject(MovieDiscoverSearchPresenter movieDiscoverSearchPresenter);
+
+    void inject(SearchMoviePresenter searchMoviePresenter);
 
 }
