@@ -2,7 +2,9 @@
 package com.pnpc.mdba.app.model;
 
 
-public class ProductionCountry {
+import java.io.Serializable;
+
+public class ProductionCountry implements Serializable {
 
     private String iso31661;
     private String name;

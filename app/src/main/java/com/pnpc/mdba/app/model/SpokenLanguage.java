@@ -2,7 +2,9 @@
 package com.pnpc.mdba.app.model;
 
 
-public class SpokenLanguage {
+import java.io.Serializable;
+
+public class SpokenLanguage implements Serializable {
 
     private String iso6391;
     private String name;

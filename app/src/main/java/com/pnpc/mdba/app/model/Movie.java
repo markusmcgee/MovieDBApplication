@@ -1,9 +1,10 @@
 
 package com.pnpc.mdba.app.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Movie {
+public class Movie implements Serializable {
 
     private Boolean adult;
     private String backdropPath;

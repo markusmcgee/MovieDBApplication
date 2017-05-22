@@ -1,7 +1,6 @@
 
 package com.pnpc.mdba.app.model;
 
-
 public class Genre {
 
     private Integer id;

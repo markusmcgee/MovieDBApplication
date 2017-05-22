@@ -4,10 +4,14 @@ import android.util.Log;
 
 import com.pnpc.mdba.app.BuildConfig;
 import com.pnpc.mdba.app.MovieDBApplication;
+import com.pnpc.mdba.app.model.Genre;
 import com.pnpc.mdba.app.model.Movie;
+import com.pnpc.mdba.app.model.MovieSearchResponse;
 import com.pnpc.mdba.app.model.SearchResult;
 import com.pnpc.mdba.app.service.MovieDBClient;
 import com.pnpc.mdba.app.service.MovieDBScheduler;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,7 +31,7 @@ public class SearchMoviePresenter implements Presenter<SearchMoviePresenter.View
 
 
     public interface ViewModel extends BaseViewModel {
-        //Todo: Add additional help to interface
+        void setResponse(MovieSearchResponse response);
     }
 
     @Inject
@@ -57,11 +61,11 @@ public class SearchMoviePresenter implements Presenter<SearchMoviePresenter.View
                 .subscribeOn(MovieDBScheduler.background())
                 .unsubscribeOn(MovieDBScheduler.background())
                 .observeOn(MovieDBScheduler.main())
-                .subscribeWith(new DisposableObserver<SearchResult>() {
+                .subscribeWith(new DisposableObserver<MovieSearchResponse>() {
 
                     @Override
-                    public void onNext(SearchResult value) {
-
+                    public void onNext(MovieSearchResponse response) {
+                        viewModel.setResponse(response);
                     }
 
                     @Override

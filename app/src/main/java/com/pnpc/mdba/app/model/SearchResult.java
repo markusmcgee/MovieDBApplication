@@ -1,9 +1,10 @@
 
 package com.pnpc.mdba.app.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SearchResult {
+public class SearchResult implements Serializable {
 
     private Integer page;
     private List<Result> results = null;

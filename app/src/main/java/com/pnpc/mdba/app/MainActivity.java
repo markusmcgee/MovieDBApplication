@@ -1,31 +1,49 @@
 package com.pnpc.mdba.app;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 
+import com.pnpc.mdba.app.activity.MovieActivity;
+import com.pnpc.mdba.app.adapter.GenreAdapter;
 import com.pnpc.mdba.app.di.ApplicationComponent;
+import com.pnpc.mdba.app.model.Genre;
 import com.pnpc.mdba.app.presenter.GenrePresenter;
-import com.pnpc.mdba.app.presenter.MoviePresenter;
-import com.pnpc.mdba.app.presenter.Presenter;
 import com.pnpc.mdba.app.view.BaseActivity;
+
+import java.util.List;
+
+import butterknife.BindView;
 
 
 /**
  * Created by markusmcgee on 5/19/17.
  */
 
-public class MainActivity extends BaseActivity implements Presenter<MoviePresenter.ViewModel>, MoviePresenter.ViewModel, GenrePresenter.ViewModel {
+public class MainActivity extends BaseActivity implements GenrePresenter.ViewModel, SearchView.OnQueryTextListener {
 
     private final String TAG = "MainActivity";
 
+    @BindView(R.id.search_view)
+    SearchView searchView;
+
+    @BindView(R.id.result_list)
+    RecyclerView resultList;
+
     GenrePresenter genrePresenter;
 
+
+    private GenreAdapter adapter;
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        searchView.setOnQueryTextListener(this);
+
     }
 
     @Override
@@ -35,20 +53,19 @@ public class MainActivity extends BaseActivity implements Presenter<MoviePresent
             genrePresenter = new GenrePresenter();
             genrePresenter.setViewModel(this);
         }
-
         genrePresenter.start();
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        setViewModel(null);
-    }
+    public void setResponse(List<Genre> genreList) {
+        if (adapter == null)
+            adapter = new GenreAdapter();
+        resultList.setAdapter(adapter);
+        adapter.setData(genreList);
+        resultList.setLayoutManager(new LinearLayoutManager(this));
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        setViewModel(null);
+
+
     }
 
     @Override
@@ -63,27 +80,22 @@ public class MainActivity extends BaseActivity implements Presenter<MoviePresent
 
 
     @Override
-    public void setViewModel(MoviePresenter.ViewModel viewModel) {
-        Log.d(TAG, "debug");
-    }
-
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
     public void error(String errorMessage) {
 
     }
 
     @Override
-    public void dismissLoading() {
+    public boolean onQueryTextSubmit(String query) {
+        Intent intent;
+        intent = new Intent(MovieDBApplication.getAppContext(), MovieActivity.class);
+        intent.putExtra(MovieActivity.EXTRAS_MOVIE_SEARCH_TEXT, query);
+        startActivity(intent);
 
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

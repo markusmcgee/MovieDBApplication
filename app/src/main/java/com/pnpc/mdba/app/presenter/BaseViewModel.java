@@ -8,5 +8,4 @@ public interface BaseViewModel {
 
     void error(String errorMessage);
 
-    void dismissLoading();
 }

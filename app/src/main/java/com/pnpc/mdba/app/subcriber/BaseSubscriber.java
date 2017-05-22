@@ -17,10 +17,6 @@ public abstract class BaseSubscriber <T> implements Subscriber<T> {
         this.baseViewModel = baseViewModel;
     }
 
-    @Override
-    public void onComplete() {
-        baseViewModel.dismissLoading();
-    }
 
     @Override
     public void onError(Throwable t) {

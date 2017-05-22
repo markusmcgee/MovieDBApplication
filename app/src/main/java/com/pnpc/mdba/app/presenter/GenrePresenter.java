@@ -5,9 +5,13 @@ import android.util.Log;
 import com.pnpc.mdba.app.BuildConfig;
 import com.pnpc.mdba.app.MovieDBApplication;
 import com.pnpc.mdba.app.model.Genre;
+import com.pnpc.mdba.app.model.GenreResponse;
 import com.pnpc.mdba.app.model.Movie;
 import com.pnpc.mdba.app.service.MovieDBClient;
 import com.pnpc.mdba.app.service.MovieDBScheduler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,7 +30,7 @@ public class GenrePresenter implements Presenter<GenrePresenter.ViewModel> {
 
 
     public interface ViewModel extends BaseViewModel {
-        //Todo: Add additional help to interface
+        void setResponse(List<Genre> genreList);
     }
 
     @Inject
@@ -51,21 +55,23 @@ public class GenrePresenter implements Presenter<GenrePresenter.ViewModel> {
                 .subscribeOn(MovieDBScheduler.background())
                 .unsubscribeOn(MovieDBScheduler.background())
                 .observeOn(MovieDBScheduler.main())
-                .subscribeWith(new DisposableObserver<Genre>() {
+                .subscribeWith(new DisposableObserver<GenreResponse>() {
 
                     @Override
-                    public void onNext(Genre value) {
-                        Log.d(TAG, "debug");
+                    public void onNext(GenreResponse value) {
+                        viewModel.setResponse(value.genreList);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "debug");
+                        viewModel.error(e.getMessage());
+
                     }
 
                     @Override
                     public void onComplete() {
                         Log.d(TAG, "debug");
+
                     }
                 })
         );

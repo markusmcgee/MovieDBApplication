@@ -2,7 +2,9 @@
 package com.pnpc.mdba.app.model;
 
 
-public class ProductionCompany {
+import java.io.Serializable;
+
+public class ProductionCompany implements Serializable {
 
     private String name;
     private Integer id;
