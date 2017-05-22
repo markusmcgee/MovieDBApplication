@@ -1,10 +1,9 @@
 
 package com.pnpc.mdba.app.model;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class Result implements Serializable {
+public class Result {
 
     private String posterPath;
     private Boolean adult;
