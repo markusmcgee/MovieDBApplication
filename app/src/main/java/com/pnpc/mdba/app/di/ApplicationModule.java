@@ -73,9 +73,5 @@ public class ApplicationModule {
         return retrofit.create(MovieDBClient.class);
     }
 
-    @Provides
-    @Singleton
-    MoviePresenter providesMoviePresenter(){
-        return new MoviePresenter();
-    }
+
 }

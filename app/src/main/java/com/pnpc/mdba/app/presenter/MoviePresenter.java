@@ -36,7 +36,14 @@ public class MoviePresenter implements Presenter<MoviePresenter.ViewModel> {
     public MoviePresenter(int movieId) {
         ((MovieDBApplication) MovieDBApplication.getAppContext()).getApplicationComponent().inject(this);
         disposable = new CompositeDisposable();
+        this.movieId = movieId;
+
     }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
 
     @Override
     public void setViewModel(ViewModel viewModel) {
@@ -47,7 +54,7 @@ public class MoviePresenter implements Presenter<MoviePresenter.ViewModel> {
     public void start() {
         disposable.clear();
         disposable.add(movieDBClient
-                .getMovie(movieId, BuildConfig.MOVIE_DB_API_KEY)
+                .getMovie(movieId, BuildConfig.MOVIE_DB_API_KEY, MovieDBApplication.getDeviceLocale())
                 .subscribeOn(MovieDBScheduler.background())
                 .unsubscribeOn(MovieDBScheduler.background())
                 .observeOn(MovieDBScheduler.main())

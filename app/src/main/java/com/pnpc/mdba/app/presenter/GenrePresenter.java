@@ -20,9 +20,10 @@ import io.reactivex.observers.DisposableObserver;
 
 public class GenrePresenter implements Presenter<GenrePresenter.ViewModel> {
 
-    private static final String TAG = "MoviePresenter";
+    private static final String TAG = "GenrePresenter";
     private final CompositeDisposable disposable;
     private ViewModel viewModel;
+
 
     public interface ViewModel extends BaseViewModel {
         //Todo: Add additional help to interface
@@ -36,6 +37,7 @@ public class GenrePresenter implements Presenter<GenrePresenter.ViewModel> {
         disposable = new CompositeDisposable();
     }
 
+
     @Override
     public void setViewModel(ViewModel viewModel) {
         this.viewModel = viewModel;
@@ -45,7 +47,7 @@ public class GenrePresenter implements Presenter<GenrePresenter.ViewModel> {
     public void start() {
         disposable.clear();
         disposable.add(movieDBClient
-                .getMovieGenres(BuildConfig.MOVIE_DB_API_KEY)
+                .getMovieGenres(BuildConfig.MOVIE_DB_API_KEY, MovieDBApplication.getDeviceLocale())
                 .subscribeOn(MovieDBScheduler.background())
                 .unsubscribeOn(MovieDBScheduler.background())
                 .observeOn(MovieDBScheduler.main())

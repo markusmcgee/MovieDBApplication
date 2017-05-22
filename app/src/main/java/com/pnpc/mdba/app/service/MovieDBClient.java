@@ -16,15 +16,15 @@ import retrofit2.http.Query;
 public interface MovieDBClient {
 
     @GET("/3/movie/{id}")
-    Observable<Movie> getMovie(@Path("id") int movieId, @Query("api_key") String apiKey);
+    Observable<Movie> getMovie(@Path("id") int movieId, @Query("api_key") String apiKey, @Query("language") String language);
 
-    @GET("/genre/movie/list")
-    Observable<Genre> getMovieGenres(@Query("api_key") String apiKey);
+    @GET("/3/genre/movie/list")
+    Observable<Genre> getMovieGenres(@Query("api_key") String apiKey, @Query("language") String language);
 
-    @GET("/discover/movie")
+    @GET("/3/discover/movie")
     Observable<Genre> searchMovieDiscover(@Query("api_key") String apiKey, @Query("language") String language, @Query("with_genres") int genre, @Query("include_adult") boolean includeAdult, @Query("include_video") boolean includeVideo);
 
-    @GET()
+    @GET("/3/search/movie")
     Observable<SearchResult> searchMovies(@Query("api_key") String apiKey, @Query("language") String language, @Query("include_adult") boolean includeAdult, @Query("query") String search_query);
 
 

@@ -7,6 +7,8 @@ import com.pnpc.mdba.app.di.ApplicationComponent;
 import com.pnpc.mdba.app.di.ApplicationModule;
 import com.pnpc.mdba.app.di.DaggerApplicationComponent;
 
+import java.util.Locale;
+
 /**
  * Created by markusmcgee on 5/19/17.
  */
@@ -15,6 +17,10 @@ public class MovieDBApplication extends Application {
 
     private static MovieDBApplication app;
     private ApplicationComponent applicationComponent;
+
+    public static String getDeviceLocale() {
+        return Locale.getDefault().toString().replace("_", "-");
+    }
 
     @Override
     public void onCreate() {

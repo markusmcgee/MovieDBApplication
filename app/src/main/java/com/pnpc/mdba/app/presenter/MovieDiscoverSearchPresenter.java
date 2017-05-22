@@ -22,7 +22,6 @@ public class MovieDiscoverSearchPresenter implements Presenter<MovieDiscoverSear
 
     private static final String TAG = "MoviePresenter";
     private final CompositeDisposable disposable;
-    private String languageLocale;
     private int genre;
     private ViewModel viewModel;
 
@@ -34,10 +33,9 @@ public class MovieDiscoverSearchPresenter implements Presenter<MovieDiscoverSear
     @Inject
     MovieDBClient movieDBClient;
 
-    public MovieDiscoverSearchPresenter(String languageLocale, int genre) {
+    public MovieDiscoverSearchPresenter(int genre) {
         ((MovieDBApplication) MovieDBApplication.getAppContext()).getApplicationComponent().inject(this);
         disposable = new CompositeDisposable();
-        this.languageLocale = languageLocale;
         this.genre = genre;
     }
 
@@ -45,9 +43,6 @@ public class MovieDiscoverSearchPresenter implements Presenter<MovieDiscoverSear
         this.genre = genre;
     }
 
-    public void setLanguageLocale(String languageLocale) {
-        this.languageLocale = languageLocale;
-    }
 
     @Override
     public void setViewModel(ViewModel viewModel) {
@@ -58,7 +53,7 @@ public class MovieDiscoverSearchPresenter implements Presenter<MovieDiscoverSear
     public void start() {
         disposable.clear();
         disposable.add(movieDBClient
-                .searchMovieDiscover(BuildConfig.MOVIE_DB_API_KEY, languageLocale, genre, false, true)
+                .searchMovieDiscover(BuildConfig.MOVIE_DB_API_KEY, MovieDBApplication.getDeviceLocale(), genre, false, true)
                 .subscribeOn(MovieDBScheduler.background())
                 .unsubscribeOn(MovieDBScheduler.background())
                 .observeOn(MovieDBScheduler.main())

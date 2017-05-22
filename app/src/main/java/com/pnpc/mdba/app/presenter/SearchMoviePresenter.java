@@ -23,7 +23,6 @@ public class SearchMoviePresenter implements Presenter<SearchMoviePresenter.View
     private static final String TAG = "MoviePresenter";
     private final CompositeDisposable disposable;
     private ViewModel viewModel;
-    private String languageLocale;
     private String searchQueryText;
 
 
@@ -34,15 +33,10 @@ public class SearchMoviePresenter implements Presenter<SearchMoviePresenter.View
     @Inject
     MovieDBClient movieDBClient;
 
-    public SearchMoviePresenter(String searchQueryText, String languageLocale) {
+    public SearchMoviePresenter(String searchQueryText) {
         ((MovieDBApplication) MovieDBApplication.getAppContext()).getApplicationComponent().inject(this);
         disposable = new CompositeDisposable();
-        this.languageLocale = languageLocale;
         this.searchQueryText = searchQueryText;
-    }
-
-    public void setLanguageLocale(String languageLocale) {
-        this.languageLocale = languageLocale;
     }
 
     public void setSearchQueryText(String searchQueryText) {
@@ -59,7 +53,7 @@ public class SearchMoviePresenter implements Presenter<SearchMoviePresenter.View
     public void start() {
         disposable.clear();
         disposable.add(movieDBClient
-                .searchMovies(BuildConfig.MOVIE_DB_API_KEY, languageLocale, false, searchQueryText)
+                .searchMovies(BuildConfig.MOVIE_DB_API_KEY, MovieDBApplication.getDeviceLocale(), false, searchQueryText)
                 .subscribeOn(MovieDBScheduler.background())
                 .unsubscribeOn(MovieDBScheduler.background())
                 .observeOn(MovieDBScheduler.main())
