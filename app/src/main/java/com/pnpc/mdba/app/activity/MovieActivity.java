@@ -169,7 +169,7 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
 
     @Override
     public void onMovieClick(int movieId) {
-        Intent intent  = new Intent(this, MovieDetailActivity.class);
+        Intent intent = new Intent(this, MovieDetailActivity.class);
         intent.putExtra(MovieDetailActivity.EXTRA_MOVIE_ID, movieId);
         startActivity(intent);
     }
@@ -177,7 +177,7 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
     @Override
     public void setResponse(List<Genre> genreList) {
         SharedPreferences.Editor editor = getSharedPreference().edit();
-        editor.putString(new Gson().toJson(genreList), GENRE_LIST);
-        editor.apply();
+        editor.putString(GENRE_LIST, new Gson().toJson(genreList));
+        editor.commit();
     }
 }

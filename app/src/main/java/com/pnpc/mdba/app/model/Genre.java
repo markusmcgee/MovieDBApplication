@@ -1,7 +1,9 @@
 
 package com.pnpc.mdba.app.model;
 
-public class Genre {
+import java.io.Serializable;
+
+public class Genre implements Serializable {
 
     private Integer id;
     private String name;
