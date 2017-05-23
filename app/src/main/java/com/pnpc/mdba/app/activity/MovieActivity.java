@@ -1,5 +1,6 @@
 package com.pnpc.mdba.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
  * Created by markusmcgee on 5/22/17.
  */
 
-public class MovieActivity extends BaseActivity implements SearchMoviePresenter.ViewModel {
+public class MovieActivity extends BaseActivity implements SearchMoviePresenter.ViewModel, MovieAdapter.MovieListener {
 
     public static final String EXTRAS_MOVIE_SEARCH_TEXT = "EXTRAS_MOVIE_SEARCH_TEXT";
     private static int CURRENT_PAGE_NO = 1;
@@ -110,15 +111,19 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
         this.response = response;
 
         if (adapter == null)
-            adapter = new MovieAdapter();
+            adapter = new MovieAdapter(this);
+
         resultList.setAdapter(adapter);
+
         if (CURRENT_PAGE_NO == 1) {
             adapter.setData(response);
         }
-        else {
-            for (Movie movie : response.movieList)
+        else if (CURRENT_PAGE_NO != response.totalPages) {
+
+            for (Movie movie : response.movieList) {
                 adapter.addDataItem(movie);
-            adapter.notifyItemInserted(adapter.getItemCount() + 1);
+            }
+            adapter.notifyItemRangeChanged(1, adapter.getItemCount());
         }
         isLoading = false;
 
@@ -149,4 +154,10 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
 
     }
 
+    @Override
+    public void onMovieClick(int movieId) {
+        Intent intent  = new Intent(this, MovieDetailActivity.class);
+        intent.putExtra(MovieDetailActivity.EXTRA_MOVIE_ID, movieId);
+        startActivity(intent);
+    }
 }

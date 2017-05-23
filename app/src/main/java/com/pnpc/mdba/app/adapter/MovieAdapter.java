@@ -26,9 +26,16 @@ import butterknife.ButterKnife;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     private static final String TAG = "GenreAdapter";
+    private final MovieListener movieListener;
     private MovieSearchResponse response;
 
-    public MovieAdapter() {
+    public interface MovieListener {
+        void onMovieClick(int movie);
+
+    }
+
+    public MovieAdapter(MovieListener movieListener) {
+        this.movieListener = movieListener;
     }
 
     List<Movie> movieList;
@@ -114,8 +121,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         @Override
         public void onClick(View view) {
-            Log.d(TAG, "debug");
-            //Todo: Add Click handler logic
+            movieListener.onMovieClick(movieId);
+
         }
 
         void setMovieId(int movieId) {

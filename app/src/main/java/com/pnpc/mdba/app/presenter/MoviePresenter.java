@@ -27,6 +27,7 @@ public class MoviePresenter implements Presenter<MoviePresenter.ViewModel> {
 
 
     public interface ViewModel extends BaseViewModel {
+        void setMovie(Movie movie);
         //Todo: Add additional help to interface
     }
 
@@ -61,8 +62,8 @@ public class MoviePresenter implements Presenter<MoviePresenter.ViewModel> {
                 .subscribeWith(new DisposableObserver<Movie>() {
 
                     @Override
-                    public void onNext(Movie value) {
-                        Log.d(TAG, "debug");
+                    public void onNext(Movie movie) {
+                        viewModel.setMovie(movie);
                     }
 
                     @Override
