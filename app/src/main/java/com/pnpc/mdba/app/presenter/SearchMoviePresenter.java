@@ -1,17 +1,10 @@
 package com.pnpc.mdba.app.presenter;
 
-import android.util.Log;
-
 import com.pnpc.mdba.app.BuildConfig;
 import com.pnpc.mdba.app.MovieDBApplication;
-import com.pnpc.mdba.app.model.Genre;
-import com.pnpc.mdba.app.model.Movie;
 import com.pnpc.mdba.app.model.MovieSearchResponse;
-import com.pnpc.mdba.app.model.SearchResult;
 import com.pnpc.mdba.app.service.MovieDBClient;
 import com.pnpc.mdba.app.service.MovieDBScheduler;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,6 +29,11 @@ public class SearchMoviePresenter implements Presenter<SearchMoviePresenter.View
 
     @Inject
     MovieDBClient movieDBClient;
+
+    public SearchMoviePresenter() {
+        ((MovieDBApplication) MovieDBApplication.getAppContext()).getApplicationComponent().inject(this);
+        disposable = new CompositeDisposable();
+    }
 
     public SearchMoviePresenter(String searchQueryText) {
         ((MovieDBApplication) MovieDBApplication.getAppContext()).getApplicationComponent().inject(this);

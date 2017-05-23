@@ -4,7 +4,6 @@ import com.pnpc.mdba.app.model.Genre;
 import com.pnpc.mdba.app.model.GenreResponse;
 import com.pnpc.mdba.app.model.Movie;
 import com.pnpc.mdba.app.model.MovieSearchResponse;
-import com.pnpc.mdba.app.model.SearchResult;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
