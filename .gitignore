@@ -12,7 +12,7 @@ Thumbs.db
 .gradle/
 
 # built application files
-*.apk
+#*.apk
 *.ap_
 
 # files for the dex VM
