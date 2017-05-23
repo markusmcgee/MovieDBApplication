@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.pnpc.mdba.app.R;
 import com.pnpc.mdba.app.adapter.MovieAdapter;
@@ -151,7 +152,7 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
 
     @Override
     public void error(String errorMessage) {
-
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override

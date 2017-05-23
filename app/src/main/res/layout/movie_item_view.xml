@@ -49,6 +49,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/walmat_yellow"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:padding="8dp"
         android:paddingLeft="4dp"
         android:textColor="@color/walmat_dark_blue"
@@ -111,10 +113,5 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/walmat_light_blue"/>
 
 </LinearLayout>
