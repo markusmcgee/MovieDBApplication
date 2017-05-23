@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.pnpc.mdba.app.R;
 import com.pnpc.mdba.app.adapter.MovieAdapter;
 import com.pnpc.mdba.app.di.ApplicationComponent;
+import com.pnpc.mdba.app.model.Movie;
 import com.pnpc.mdba.app.model.MovieSearchResponse;
 import com.pnpc.mdba.app.presenter.SearchMoviePresenter;
 import com.pnpc.mdba.app.view.BaseActivity;
@@ -23,6 +24,7 @@ import butterknife.OnClick;
 public class MovieActivity extends BaseActivity implements SearchMoviePresenter.ViewModel {
 
     public static final String EXTRAS_MOVIE_SEARCH_TEXT = "EXTRAS_MOVIE_SEARCH_TEXT";
+    private static int CURRENT_PAGE_NO = 1;
 
     @BindView(R.id.result_list)
     RecyclerView resultList;
@@ -34,22 +36,49 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
     private MovieSearchResponse response;
 
     private MovieAdapter adapter;
+    private LinearLayoutManager layoutManager;
 
-    @OnClick(R.id.search)
-    public void onSearchButtonClick() {
-        if (searchMoviePresenter == null)
-            searchMoviePresenter = new SearchMoviePresenter();
-
-        searchMoviePresenter.setSearchQueryText(movieSearchText.getText().toString());
-        searchMoviePresenter.setViewModel(this);
-
-        searchMoviePresenter.start();
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+        layoutManager = new LinearLayoutManager(this);
+        resultList.setLayoutManager(layoutManager);
+        resultList.addOnScrollListener(recyclerViewOnScrollListener);
+    }
+
+    private boolean isLoading = false;
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int visibleItemCount = layoutManager.getChildCount();
+            int totalItemCount = layoutManager.getItemCount();
+            int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+            if (!isLoading && !isLastPage()) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0) {
+                    loadMoreItems();
+                }
+            }
+        }
+    };
+
+    private boolean isLastPage() {
+        return CURRENT_PAGE_NO == response.totalPages;
+    }
+
+    private void loadMoreItems() {
+        CURRENT_PAGE_NO++;
+        doMovieSearch();
+
     }
 
     @Override
@@ -58,14 +87,41 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
 
     }
 
+    @OnClick(R.id.search)
+    public void onSearchButtonClick() {
+        doMovieSearch();
+    }
+
+    private void doMovieSearch() {
+        if (searchMoviePresenter == null)
+            searchMoviePresenter = new SearchMoviePresenter();
+
+        searchMoviePresenter.setSearchQueryText(movieSearchText.getText().toString());
+        searchMoviePresenter.setPageRequest(CURRENT_PAGE_NO);
+        searchMoviePresenter.setViewModel(this);
+
+        searchMoviePresenter.start();
+        isLoading = true;
+    }
+
     @Override
     public void setResponse(MovieSearchResponse response) {
+
+        this.response = response;
+
         if (adapter == null)
             adapter = new MovieAdapter();
         resultList.setAdapter(adapter);
-        adapter.setData(response);
-        resultList.setLayoutManager(new LinearLayoutManager(this));
-        this.response = response;
+        if (CURRENT_PAGE_NO == 1) {
+            adapter.setData(response);
+        }
+        else {
+            for (Movie movie : response.movieList)
+                adapter.addDataItem(movie);
+            adapter.notifyItemInserted(adapter.getItemCount() + 1);
+        }
+        isLoading = false;
+
     }
 
     @Override

@@ -81,6 +81,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         notifyDataSetChanged();
     }
 
+    public void addDataItem(Movie movie){
+        this.movieList.add(movie);
+        notifyDataSetChanged();
+    }
+
     class MovieViewHolder extends ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.overview)

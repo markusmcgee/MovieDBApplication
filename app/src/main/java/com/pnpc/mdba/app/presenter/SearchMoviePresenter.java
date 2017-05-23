@@ -21,6 +21,7 @@ public class SearchMoviePresenter implements Presenter<SearchMoviePresenter.View
     private final CompositeDisposable disposable;
     private ViewModel viewModel;
     private String searchQueryText;
+    private int page = 1;
 
 
     public interface ViewModel extends BaseViewModel {
@@ -45,6 +46,10 @@ public class SearchMoviePresenter implements Presenter<SearchMoviePresenter.View
         this.searchQueryText = searchQueryText;
     }
 
+    public void setPageRequest(int page){
+        this.page = page;
+    }
+
 
     @Override
     public void setViewModel(ViewModel viewModel) {
@@ -55,7 +60,7 @@ public class SearchMoviePresenter implements Presenter<SearchMoviePresenter.View
     public void start() {
         disposable.clear();
         disposable.add(movieDBClient
-                .searchMovies(BuildConfig.MOVIE_DB_API_KEY, MovieDBApplication.getDeviceLocale(), false, searchQueryText)
+                .searchMovies(BuildConfig.MOVIE_DB_API_KEY, MovieDBApplication.getDeviceLocale(), false, searchQueryText, Integer.toString(page))
                 .subscribeOn(MovieDBScheduler.background())
                 .unsubscribeOn(MovieDBScheduler.background())
                 .observeOn(MovieDBScheduler.main())

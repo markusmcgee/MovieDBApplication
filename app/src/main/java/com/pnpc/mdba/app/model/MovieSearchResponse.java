@@ -11,7 +11,14 @@ import java.util.List;
 public class MovieSearchResponse {
     @SerializedName("page")
     public int page;
+
     @SerializedName("results")
     public List<Movie> movieList;
+
+    @SerializedName("total_results")
+    public int totlResults;
+
+    @SerializedName("total_pages")
+    public int totalPages;
 
 }
