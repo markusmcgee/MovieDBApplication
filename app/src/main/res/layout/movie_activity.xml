@@ -8,8 +8,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/grey_blue">
+        android:layout_height="?attr/actionBarSize">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -23,7 +22,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:hint="Search Movies by Name"
-                android:textColor="@android:color/white"/>
+                android:textColor="@color/walmat_dark_blue"/>
 
             <Button
                 android:id="@+id/search"

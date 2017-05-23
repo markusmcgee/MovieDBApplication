@@ -7,40 +7,46 @@
     android:background="@color/walmat_yellow"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/walmat_dark_blue"
-        android:orientation="horizontal">
+        android:background="@android:color/white">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:padding="8dp"
-            android:paddingLeft="4dp"
-            android:textColor="@color/walmat_yellow"
-            android:textSize="24sp"
-            tools:text="Star Wars"/>
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:padding="8dp"
+                android:paddingLeft="4dp"
+                android:textColor="@color/walmat_dark_blue"
+                android:textSize="16sp"
+                tools:text="Star Wars"/>
 
 
-        <TextView
-            android:id="@+id/release_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:padding="8dp"
-            android:paddingLeft="4dp"
-            android:textColor="@color/walmat_yellow"
-            android:textSize="12sp"
-            tools:text="1977-05-25"/>
+            <TextView
+                android:id="@+id/release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:padding="8dp"
+                android:paddingLeft="4dp"
+                android:textColor="@color/walmat_dark_blue"
+                android:textSize="12sp"
+                tools:text="1977-05-25"/>
 
 
-    </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <TextView
         android:id="@+id/overview"
