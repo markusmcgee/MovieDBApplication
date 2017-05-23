@@ -2,11 +2,14 @@ package com.pnpc.mdba.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.pnpc.mdba.app.di.ApplicationComponent;
 import com.pnpc.mdba.app.di.ApplicationModule;
 import com.pnpc.mdba.app.di.DaggerApplicationComponent;
+import com.pnpc.mdba.app.model.Genre;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -39,4 +42,6 @@ public class MovieDBApplication extends Application {
     public static Context getAppContext() {
         return app;
     }
+
+
 }

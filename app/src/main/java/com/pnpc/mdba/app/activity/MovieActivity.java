@@ -1,21 +1,26 @@
 package com.pnpc.mdba.app.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pnpc.mdba.app.R;
 import com.pnpc.mdba.app.adapter.MovieAdapter;
 import com.pnpc.mdba.app.di.ApplicationComponent;
+import com.pnpc.mdba.app.model.Genre;
 import com.pnpc.mdba.app.model.Movie;
 import com.pnpc.mdba.app.model.MovieSearchResponse;
+import com.pnpc.mdba.app.presenter.GenrePresenter;
 import com.pnpc.mdba.app.presenter.SearchMoviePresenter;
 import com.pnpc.mdba.app.view.BaseActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,7 +29,7 @@ import butterknife.OnClick;
  * Created by markusmcgee on 5/22/17.
  */
 
-public class MovieActivity extends BaseActivity implements SearchMoviePresenter.ViewModel, MovieAdapter.MovieListener {
+public class MovieActivity extends BaseActivity implements SearchMoviePresenter.ViewModel, MovieAdapter.MovieListener, GenrePresenter.ViewModel {
 
     public static final String EXTRAS_MOVIE_SEARCH_TEXT = "EXTRAS_MOVIE_SEARCH_TEXT";
     private static int CURRENT_PAGE_NO = 1;
@@ -36,6 +41,8 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
     EditText movieSearchText;
 
     SearchMoviePresenter searchMoviePresenter;
+    GenrePresenter genrePresenter;
+
     private MovieSearchResponse response;
 
     private MovieAdapter adapter;
@@ -49,6 +56,10 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
         layoutManager = new LinearLayoutManager(this);
         resultList.setLayoutManager(layoutManager);
         resultList.addOnScrollListener(recyclerViewOnScrollListener);
+
+        genrePresenter = new GenrePresenter();
+        genrePresenter.setViewModel(this);
+        genrePresenter.start();
     }
 
     private boolean isLoading = false;
@@ -161,5 +172,12 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
         Intent intent  = new Intent(this, MovieDetailActivity.class);
         intent.putExtra(MovieDetailActivity.EXTRA_MOVIE_ID, movieId);
         startActivity(intent);
+    }
+
+    @Override
+    public void setResponse(List<Genre> genreList) {
+        SharedPreferences.Editor editor = getSharedPreference().edit();
+        editor.putString(new Gson().toJson(genreList), GENRE_LIST);
+        editor.apply();
     }
 }

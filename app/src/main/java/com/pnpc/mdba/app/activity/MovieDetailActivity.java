@@ -1,15 +1,22 @@
 package com.pnpc.mdba.app.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pnpc.mdba.app.R;
 import com.pnpc.mdba.app.di.ApplicationComponent;
+import com.pnpc.mdba.app.model.Genre;
 import com.pnpc.mdba.app.model.Movie;
 import com.pnpc.mdba.app.presenter.MoviePresenter;
 import com.pnpc.mdba.app.view.BaseActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -18,6 +25,8 @@ import butterknife.BindView;
  */
 
 public class MovieDetailActivity extends BaseActivity implements MoviePresenter.ViewModel {
+
+    private static final String TAG = "MovieDetailActivity";
 
     public static final String EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID";
     MoviePresenter moviePresenter;
@@ -37,11 +46,20 @@ public class MovieDetailActivity extends BaseActivity implements MoviePresenter.
 
     @BindView(R.id.vote_count)
     TextView voteCount;
+    private List<Genre> genreList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+
+        String genreString = getSharedPreference().getString(GENRE_LIST, "");
+        if (genreString.length() > 0)
+            genreList = new Gson().fromJson(genreString, new TypeToken<List<Genre>>() {
+            }.getType());
+
+        Log.d(TAG, "debug");
+
     }
 
     @Override
