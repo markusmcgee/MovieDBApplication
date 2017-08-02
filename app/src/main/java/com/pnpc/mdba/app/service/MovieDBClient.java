@@ -14,6 +14,11 @@ import retrofit2.http.Query;
  * Created by markusmcgee on 5/19/17.
  */
 
+/*
+* Name: Movie DB Client
+* Description: The MovieDBClient is used by Retrofit to stub out the backend calls to be used in the this application.
+* The initial setup is contained in the ApplicationModule.java file (providesRetrofit)
+*/
 public interface MovieDBClient {
 
     @GET("/3/movie/{id}")

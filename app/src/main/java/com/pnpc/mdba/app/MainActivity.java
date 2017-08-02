@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.pnpc.mdba.app.activity.MovieActivity;
@@ -25,6 +26,10 @@ import butterknife.BindView;
  * Created by markusmcgee on 5/19/17.
  */
 
+/*
+* Name: Main Activity
+* Description: Main Activity used for application start.
+*/
 public class MainActivity extends BaseActivity implements GenrePresenter.ViewModel, SearchView.OnQueryTextListener {
 
     private final String TAG = "MainActivity";
@@ -78,7 +83,8 @@ public class MainActivity extends BaseActivity implements GenrePresenter.ViewMod
 
     @Override
     public void error(String errorMessage) {
-        Toast.makeText(this, errorMessage,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        Log.d(TAG, errorMessage);
     }
 
     @Override

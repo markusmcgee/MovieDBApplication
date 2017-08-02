@@ -24,6 +24,11 @@ import butterknife.BindView;
  * Created by markusmcgee on 5/22/17.
  */
 
+
+/*
+* Name: Movie Detail Activity
+* Description: Activity used to display movie detail information.  Could have been a fragment or custom view.
+* */
 public class MovieDetailActivity extends BaseActivity implements MoviePresenter.ViewModel {
 
     private static final String TAG = "MovieDetailActivity";

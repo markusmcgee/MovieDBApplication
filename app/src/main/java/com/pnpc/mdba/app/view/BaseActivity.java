@@ -13,10 +13,16 @@ import butterknife.ButterKnife;
 /**
  * Created by markusmcgee on 5/19/17.
  */
-
+/*
+* Name: Base Activity
+* Description: Base Activity used to stub out common functionality across Activities.
+* */
 public abstract class BaseActivity extends AppCompatActivity {
     public static final String GENRE_LIST = "GENRE_LIST";
 
+    /*
+    * The onCreate contains the main ButterKnife bind command.  All Activities will automatically ButterKnife bind.
+    */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
