@@ -33,5 +33,4 @@ public interface MovieDBClient {
     @GET("/3/search/movie")
     Observable<MovieSearchResponse> searchMovies(@Query("api_key") String apiKey, @Query("language") String language, @Query("include_adult") boolean includeAdult, @Query("query") String search_query, @Query("page") String page);
 
-
 }

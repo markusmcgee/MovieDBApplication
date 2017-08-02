@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -107,10 +108,13 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
     }
 
     private void doMovieSearch() {
+
+        String searchText = movieSearchText.getText().toString();
+
         if (searchMoviePresenter == null)
             searchMoviePresenter = new SearchMoviePresenter();
 
-        searchMoviePresenter.setSearchQueryText(movieSearchText.getText().toString());
+        searchMoviePresenter.setSearchQueryText(searchText);
         searchMoviePresenter.setPageRequest(CURRENT_PAGE_NO);
         searchMoviePresenter.setViewModel(this);
 
@@ -165,6 +169,11 @@ public class MovieActivity extends BaseActivity implements SearchMoviePresenter.
     @Override
     public void error(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void error() {
+        Toast.makeText(this, getString(R.string.error_occured), Toast.LENGTH_SHORT).show();
     }
 
     @Override

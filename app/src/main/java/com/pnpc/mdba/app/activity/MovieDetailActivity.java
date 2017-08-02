@@ -99,6 +99,10 @@ public class MovieDetailActivity extends BaseActivity implements MoviePresenter.
     public void error(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
+    @Override
+    public void error() {
+        Toast.makeText(this, getString(R.string.error_occured), Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void setMovie(Movie movie) {

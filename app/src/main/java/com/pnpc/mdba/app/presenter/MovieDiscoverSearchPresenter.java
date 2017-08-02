@@ -2,12 +2,19 @@ package com.pnpc.mdba.app.presenter;
 
 import android.util.Log;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.pnpc.mdba.app.BuildConfig;
 import com.pnpc.mdba.app.MovieDBApplication;
 import com.pnpc.mdba.app.model.Genre;
 import com.pnpc.mdba.app.model.Movie;
 import com.pnpc.mdba.app.service.MovieDBClient;
 import com.pnpc.mdba.app.service.MovieDBScheduler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -66,7 +73,27 @@ public class MovieDiscoverSearchPresenter implements Presenter<MovieDiscoverSear
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "debug");
+                        String errorMessage = "";
+                        JSONObject jObjError = null;
+
+                        try {
+                            String jsonString = ((HttpException) e).response().errorBody().string();
+                            if (!jsonString.isEmpty()) {
+                                jObjError = new JSONObject(jsonString);
+                            }
+                            errorMessage = ((JSONArray) jObjError.get("errors")).get(0).toString();
+                        }
+                        catch (JSONException jsone) {
+                            jsone.printStackTrace();
+                        }
+                        catch (IOException ioe) {
+                            ioe.printStackTrace();
+                        }
+
+                        if (!errorMessage.isEmpty())
+                            viewModel.error(errorMessage);
+                        else
+                            viewModel.error();
                     }
 
                     @Override
@@ -79,7 +106,7 @@ public class MovieDiscoverSearchPresenter implements Presenter<MovieDiscoverSear
 
     @Override
     public void stop() {
-
+        disposable.clear();
     }
 
 }

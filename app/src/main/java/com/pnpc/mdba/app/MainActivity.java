@@ -84,7 +84,11 @@ public class MainActivity extends BaseActivity implements GenrePresenter.ViewMod
     @Override
     public void error(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-        Log.d(TAG, errorMessage);
+    }
+
+    @Override
+    public void error() {
+        Toast.makeText(this, getString(R.string.error_occured), Toast.LENGTH_SHORT).show();
     }
 
     @Override

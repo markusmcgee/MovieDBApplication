@@ -7,5 +7,6 @@ package com.pnpc.mdba.app.presenter;
 public interface BaseViewModel {
 
     void error(String errorMessage);
+    void error();
 
 }
